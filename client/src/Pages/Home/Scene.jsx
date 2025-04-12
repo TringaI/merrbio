@@ -10,7 +10,7 @@ Title: Pickles
 import React from 'react'
 import { useGLTF } from '@react-three/drei'
 
-export default function Model(props) {
+ function Model(props) {
   const { nodes, materials } = useGLTF('/pickles/scene.gltf')
   return (
     <group {...props} dispose={null}>
@@ -256,3 +256,5 @@ export default function Model(props) {
 }
 
 useGLTF.preload('/pickles/scene.gltf')
+
+export default Model
