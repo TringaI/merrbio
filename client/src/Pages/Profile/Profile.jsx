@@ -9,7 +9,7 @@ function Profile() {
                 <h1 className='moret  text-4xl'>Mirese erdhet ne profilin tuaj</h1>
                 <hr />
                 <div className="w-full flex justify-end">
-                    <button className='dark-green-bg px-4 py-3 rounded-md mt-5 text-white poppins'>Menaxho Produktet </button>
+                    <button className='dark-green-bg px-4 py-3 rounded-md mt-5 text-white poppins'><a href="/profili-fermerit">Profili Fermerit</a> </button>
                 </div>
             </div>
             <div className='w-[80vw] grid grid-cols-12 mt-10 gap-5'>

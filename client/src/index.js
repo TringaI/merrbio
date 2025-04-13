@@ -8,6 +8,7 @@ import Login from './Pages/Login/Login'
 import Signup from './Pages/Signup/Signup'
 import Products from './Pages/Products/Products'
 import Profile from './Pages/Profile/Profile'
+import Dashboard from './Pages/Profile/Dashboard/Dashboard';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './Components/ProtectedRoute';
 import reportWebVitals from './reportWebVitals';
@@ -26,6 +27,7 @@ root.render(
               </ProtectedRoute>
             } />
             <Route path='/produktet' element={<Products />} />
+            <Route path='/profili-fermerit' element={<Dashboard />} />
           </Route>
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />
