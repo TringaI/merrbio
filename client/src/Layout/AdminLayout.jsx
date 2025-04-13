@@ -36,12 +36,12 @@ function AdminLayout() {
     <div className="min-h-screen bg-white">
       <div className="w-full fixed bg-white z-20 px-20 py-5 shadow-sm">
         <div className="container mx-auto flex justify-between items-center">
-          <h1 className="moret text-2xl">MerrBio Admin Panel</h1>
+          <h1 className="moret text-2xl">MerrBio Paneli Admin</h1>
           <button 
             onClick={() => logout()}
             className="text-base poppins text-white blue-bg px-4 py-2 rounded-md"
           >
-            Logout
+            Dilni
           </button>
         </div>
       </div>

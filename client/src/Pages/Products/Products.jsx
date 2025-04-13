@@ -38,7 +38,9 @@ function Products() {
     if (searchTerm) {
       result = result.filter(product => 
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchTerm.toLowerCase())
+        product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (product.farmerId && product.farmerId.farmName && 
+         product.farmerId.farmName.toLowerCase().includes(searchTerm.toLowerCase()))
       );
     }
     
@@ -123,7 +125,7 @@ function Products() {
               <label className="block poppins text-gray-700 mb-2">Kërko produktet</label>
               <input
                 type="text"
-                placeholder="Kërko sipas emrit..."
+                placeholder="Kërko sipas emrit, përshkrimit ose fermerit..."
                 value={searchTerm}
                 onChange={handleSearch}
                 className="w-full p-2 border border-gray-300 rounded-md form-inputs"
