@@ -118,7 +118,7 @@ function Products() {
         <h1 className='moret text-3xl mb-6'>Produktet</h1>
         
         {/* Filters Section */}
-        <div className="bg-white p-5 rounded-md shadow-sm mb-6">
+        <div className="bg-white p-5  rounded-md shadow-sm mb-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Search */}
             <div>
@@ -186,8 +186,9 @@ function Products() {
             <p className="poppins">Nuk u gjetën produkte me këto kritere.</p>
           </div>
         ) : (
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
+          <div className='grid grid-cols-1 py-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
             {filteredProducts.map(product => (
+
               <div key={product._id}>
                 <ProductContainers 
                   id={product._id}

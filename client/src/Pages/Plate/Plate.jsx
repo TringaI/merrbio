@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
-function Prep() {
+function Plate() {
     const [rotateDeg, setRotateDeg] = useState(0);
     const [plateVisible, setPlateVisible] = useState(false);
 
@@ -13,44 +13,23 @@ function Prep() {
     const [showCucumber, setShowCucumber] = useState(false);
     const [showPear, setShowPear] = useState(false);
 
-    const prepRef = useRef(null);
-
-    // Entry animation when the section is in view
+    // Entry animation
     useEffect(() => {
-        const handleIntersection = (entries) => {
-            const entry = entries[0];
-            if (entry.isIntersecting) {
-                const startAnimation = async () => {
-                    setTimeout(() => {
-                        setPlateVisible(true);
-                        setRotateDeg(10);
-                    }, 200);
+        const startAnimation = async () => {
+            setTimeout(() => {
+                setPlateVisible(true);
+                setRotateDeg(10);
+            }, 200);
 
-                    setTimeout(() => setShowTitle(true), 1000);
-                    setTimeout(() => setShowDescription(true), 1300);
-                    setTimeout(() => setShowButtons([true, false, false, false]), 1600);
-                    setTimeout(() => setShowButtons([true, true, false, false]), 1900);
-                    setTimeout(() => setShowButtons([true, true, true, false]), 2200);
-                    setTimeout(() => setShowButtons([true, true, true, true]), 2500);
-                };
-
-                startAnimation();
-            }
+            setTimeout(() => setShowTitle(true), 1000);
+            setTimeout(() => setShowDescription(true), 1300);
+            setTimeout(() => setShowButtons([true, false, false, false]), 1600);
+            setTimeout(() => setShowButtons([true, true, false, false]), 1900);
+            setTimeout(() => setShowButtons([true, true, true, false]), 2200);
+            setTimeout(() => setShowButtons([true, true, true, true]), 2500);
         };
 
-        const observer = new IntersectionObserver(handleIntersection, {
-            threshold: 0.1, // Adjust the threshold as needed
-        });
-
-        if (prepRef.current) {
-            observer.observe(prepRef.current);
-        }
-
-        return () => {
-            if (prepRef.current) {
-                observer.unobserve(prepRef.current);
-            }
-        };
+        startAnimation();
     }, []);
 
     const handleClick = (setter) => {
@@ -59,7 +38,7 @@ function Prep() {
     };
 
     return (
-        <div ref={prepRef} className='w-full mt-20 flex items-center justify-center'>
+        <div className='w-full mt-20 flex items-center justify-center'>
             <div className="w-[80vw] grid grid-cols-12">
                 {/* Plate Section */}
                 <div
@@ -109,7 +88,7 @@ function Prep() {
                         pjata juaj e mbushur me ushqime bio!
                     </p>
 
-                    {[ 
+                    {[
                         { label: 'Shtoni domate bio +', onClick: () => handleClick(setShowTomatoes), ml: 'ml-20' },
                         { label: 'Shtoni djathin bio +', onClick: () => handleClick(setShowCheese), ml: 'ml-20' },
                         { label: 'Shtoni trangujt bio +', onClick: () => handleClick(setShowCucumber), ml: 'ml-10' },
@@ -129,4 +108,4 @@ function Prep() {
     );
 }
 
-export default Prep;
+export default Plate;

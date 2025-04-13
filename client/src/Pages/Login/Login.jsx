@@ -46,13 +46,14 @@ function Login() {
   
   return (
     <div className='w-full flex items-center justify-center'>
-        <div className='w-[80vw] grid grid-cols-12 rounded-xl h-[90vh] mt-10'>
-            <div className="col-span-6 flex light-green-bg items-center rounded-tl-xl rounded-bl-xl justify-center">
-                <h1 className='moret text-8xl'>MerrBio</h1>
+        <div className='w-[80vw] grid grid-cols-12 rounded-xl lg:h-[90vh] mt-10'>
+            <div className="col-span-12 order-2 lg:order-1 lg:col-span-6 flex light-green-bg items-center rounded-tl-xl rounded-bl-xl justify-center">
+            <h1 className='moret text-5xl py-10 lg:py-0 lg:text-8xl'>MerrBio</h1>
+
             </div>
-            <div className="col-span-6 pl-10 flex flex-col h-full form-side-containers justify-center rounded-tr-xl rounded-br-xl">
+            <div className="col-span-12 order-1 py-10 lg:py-0 lg:order-2 lg:col-span-6 pl-10 flex flex-col h-full form-side-containers justify-center rounded-tr-xl rounded-br-xl">
                 <form onSubmit={handleLogin}>
-                    <h1 className='poppins text-3xl font-medium'>Kycuni ne llogarine tuaj</h1>
+                    <h1 className='poppins text-2xl lg:text-3xl font-medium mt-5'>Kycuni ne llogarine tuaj</h1>
                     
                     {error && (
                       <div className="w-[80%] bg-red-100 border border-red-400 text-red-700 px-3 py-2 rounded mt-4">
@@ -77,7 +78,7 @@ function Login() {
                       onChange={(e) => setPassword(e.target.value)}
                       required
                     />
-                    
+                      <br />
                     <button 
                       type="submit"
                       disabled={isLoading}
@@ -86,6 +87,7 @@ function Login() {
                       {isLoading ? 'Duke u kyçur...' : 'Kycuni'}
                     </button>
                 </form>
+                <p className='poppins text-gray-400 mt-5'>Skeni llogari? <a href="/signup" className='underline text-gray-700'>Regjistrohu tani</a></p>
             </div>
         </div>
     </div>

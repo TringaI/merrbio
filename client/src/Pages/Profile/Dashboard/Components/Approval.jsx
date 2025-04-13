@@ -41,7 +41,7 @@ function Approval() {
       );
     } catch (err) {
       console.error('Error approving request:', err);
-      alert('Ndodhi një gabim duke aprovuar kërkesën');
+      alert('Nuk keni ndonje kerkese aktive');
     }
   };
 
