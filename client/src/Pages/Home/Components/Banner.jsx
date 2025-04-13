@@ -9,16 +9,20 @@ function Banner() {
     <button className='light-green-bg px-3 mt-5 py-2 rounded-md poppins text-2xl'>Shikoni Produktet në <b>360</b></button>
     <div className="w-[80vw] flex mt-20 gap-5">
       <div className="w-[25%]">
-        <ProductContainer image='product-4.png' product='Mjalt Bio' farmer='Filan Fisteku' />
+        <ProductContainer image='product-4.png' product='Mjalt Bio' farmer='Filan Fisteku'desc='Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas amet maiores fuga sit facilis velit saepe, 
+            nobis similique reprehenderit totam ' />
       </div>
       <div className="w-[25%]">
-        <ProductContainer image='product-2.png' product='Paprika Bio' farmer='Filan Fisteku' />
+        <ProductContainer image='product-2.png' product='Paprika Bio' farmer='Filan Fisteku' desc='Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas amet maiores fuga sit facilis velit saepe, 
+            nobis similique reprehenderit totam '/>
       </div>
       <div className="w-[25%]">
-        <ProductContainer image='product-3.png' product='Tranguj Bio' farmer='Filan Fisteku' />
+        <ProductContainer image='product-3.png' product='Tranguj Bio' farmer='Filan Fisteku' desc='Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas amet maiores fuga sit facilis velit saepe, 
+            nobis similique reprehenderit totam ' />
       </div>
       <div className="w-[25%]">
-        <ProductContainer image='product-1.png' product='Tranguj Bio' farmer='Filan Fisteku' />
+        <ProductContainer image='product-1.png' product='Tranguj Bio' farmer='Filan Fisteku' desc='Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas amet maiores fuga sit facilis velit saepe, 
+            nobis similique reprehenderit totam ' />
       </div>
     </div>
   </div>

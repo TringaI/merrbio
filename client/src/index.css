@@ -24,6 +24,10 @@ body{
 .light-green-bg{
   background-color: #B7E3CC;
 }
+.dark-green-bg{
+  background-color: #478e69;
+
+}
 .light-green-border{
   border: 1px solid #B7E3CC;
 }

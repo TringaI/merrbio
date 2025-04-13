@@ -9,8 +9,7 @@ function ProductContainer(props) {
         <h1 className="poppins text-2xl font-medium mt-3 ">{props.product}</h1>
         <h2 className="poppins text-base mt-1 text-gray-500">{props.farmer}</h2>
         <p className="text-sm mt-3 poppins font-light text-gray-500">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas amet maiores fuga sit facilis velit saepe, 
-            nobis similique reprehenderit totam 
+            {props.desc}
         </p>
         <hr />
         <button className="mt-5 light-green-bg px-3 py-2 rounded-md">
