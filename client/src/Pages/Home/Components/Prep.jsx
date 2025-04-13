@@ -16,7 +16,7 @@ function Prep() {
         <div className='w-full mt-20 flex items-center justify-center'>
             <div className="w-[80vw] grid grid-cols-12">
                 <div
-                    className="col-span-6 relative transition-transform duration-300"
+                    className="col-span-12 order-2 md:order-1 md:col-span-6 relative transition-transform duration-300"
                     style={{ transform: `rotate(${rotateDeg}deg)` }}
                 >
                     <div className="relative w-full h-full">
@@ -44,32 +44,32 @@ function Prep() {
                     </div>
                 </div>
 
-                <div className="col-span-6 flex flex-col justify-center">
-                    <h1 className='moret text-5xl'>Krijoni  pjaten tuaj</h1>
-                    <p className='poppins text-xl  text-gray-500 mt-5 ml-10'>
+                <div className="col-span-12 order-1 md:order-2 md:col-span-6 flex flex-col items-center md:items-start justify-center">
+                    <h1 className='moret text-4xl md:text-5xl'>Krijoni  pjaten tuaj</h1>
+                    <p className='poppins text-base md:text-xl text-center md:text-left text-gray-500 mt-5 md:ml-10'>
                         Shfrytezoni rastin dhe shikoni se si do dukej 
                         pjata juaj e mbushur me ushqime bio!
                     </p>
                     <button
-                        className="poppins text-xl font-medium underline-wavy-green w-fit mt-5 ml-20"
+                        className="poppins text-base md:text-xl font-medium underline-wavy-green w-fit mt-5 md:ml-20"
                         onClick={() => handleClick(setShowTomatoes)}
                     >
                         Shtoni domate bio +
                     </button>
                     <button
-                        className="poppins text-xl font-medium underline-wavy-green w-fit mt-5 ml-20"
+                        className="poppins text-base md:text-xl font-medium underline-wavy-green w-fit mt-5 md:ml-20"
                         onClick={() => handleClick(setShowCheese)}
                     >
                         Shtoni djathin bio +
                     </button>
                     <button
-                        className="poppins text-xl font-medium underline-wavy-green w-fit mt-5 ml-10"
+                        className="poppins text-base md:text-xl font-medium underline-wavy-green w-fit mt-5 md:ml-10"
                         onClick={() => handleClick(setShowCucumber)}
                     >
                         Shtoni trangujt bio +
                     </button>
                     <button
-                        className="poppins text-xl font-medium underline-wavy-green w-fit mt-3"
+                        className="poppins text-base md:text-xl font-medium underline-wavy-green w-fit mt-3"
                         onClick={() => handleClick(setShowPear)}
                     >
                         Shtoni dardha bio +

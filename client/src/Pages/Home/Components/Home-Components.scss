@@ -1,0 +1,22 @@
+.slider {
+    animation: scroll 25s linear infinite;
+    width: max-content;
+  }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .gradient-left {
+    background: linear-gradient(to right, white 0%, transparent 100%);
+  }
+  
+  .gradient-right {
+    background: linear-gradient(to left, white 0%, transparent 100%);
+  }
+  
