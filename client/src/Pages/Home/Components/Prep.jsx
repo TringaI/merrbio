@@ -1,74 +1,57 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function Prep() {
-    const [rotateDeg, setRotateDeg] = useState(0);
-    const [plateVisible, setPlateVisible] = useState(false);
-
-    const [showTitle, setShowTitle] = useState(false);
-    const [showDescription, setShowDescription] = useState(false);
-    const [showButtons, setShowButtons] = useState([false, false, false, false]);
-
     const [showTomatoes, setShowTomatoes] = useState(false);
     const [showCheese, setShowCheese] = useState(false);
     const [showCucumber, setShowCucumber] = useState(false);
     const [showPear, setShowPear] = useState(false);
+    const [rotateDeg, setRotateDeg] = useState(0);
+    const [initialAnimationDone, setInitialAnimationDone] = useState(false);
 
-    const prepRef = useRef(null);
-
-    // Entry animation when the section is in view
+    // Rotate plate on first load
     useEffect(() => {
-        const handleIntersection = (entries) => {
-            const entry = entries[0];
-            if (entry.isIntersecting) {
-                const startAnimation = async () => {
-                    setTimeout(() => {
-                        setPlateVisible(true);
-                        setRotateDeg(10);
-                    }, 200);
-
-                    setTimeout(() => setShowTitle(true), 1000);
-                    setTimeout(() => setShowDescription(true), 1300);
-                    setTimeout(() => setShowButtons([true, false, false, false]), 1600);
-                    setTimeout(() => setShowButtons([true, true, false, false]), 1900);
-                    setTimeout(() => setShowButtons([true, true, true, false]), 2200);
-                    setTimeout(() => setShowButtons([true, true, true, true]), 2500);
-                };
-
-                startAnimation();
-            }
-        };
-
-        const observer = new IntersectionObserver(handleIntersection, {
-            threshold: 0.1, // Adjust the threshold as needed
-        });
-
-        if (prepRef.current) {
-            observer.observe(prepRef.current);
-        }
-
-        return () => {
-            if (prepRef.current) {
-                observer.unobserve(prepRef.current);
-            }
-        };
+        const timeout = setTimeout(() => {
+            setRotateDeg(10);
+            setInitialAnimationDone(true);
+        }, 300); // small delay for smoothness
+        return () => clearTimeout(timeout);
     }, []);
 
+    // Animate ingredients one by one
+    useEffect(() => {
+        if (!initialAnimationDone) return;
+
+        const animations = [];
+
+        if (showTomatoes) {
+            animations.push(() => setShowTomatoes(true));
+        }
+        if (showCheese) {
+            animations.push(() => setShowCheese(true));
+        }
+        if (showCucumber) {
+            animations.push(() => setShowCucumber(true));
+        }
+        if (showPear) {
+            animations.push(() => setShowPear(true));
+        }
+
+        animations.forEach((fn, index) => {
+            setTimeout(fn, index * 300); // delay between each item
+        });
+    }, [showTomatoes, showCheese, showCucumber, showPear, initialAnimationDone]);
+
     const handleClick = (setter) => {
-        setter(true);
+        setter(true); // this will trigger useEffect which controls animation
         setRotateDeg(prev => prev + 10);
     };
 
     return (
-        <div ref={prepRef} className='w-full mt-20 flex items-center justify-center'>
+        <div className='w-full mt-20 flex items-center justify-center'>
             <div className="w-[80vw] grid grid-cols-12">
-                {/* Plate Section */}
                 <div
-                    className="col-span-12 order-2 md:order-1 md:col-span-6 relative transition-all duration-700 ease-in-out"
-                    style={{
-                        transform: `rotate(${rotateDeg}deg)`,
-                        opacity: plateVisible ? 1 : 0,
-                        transition: 'transform 1s ease, opacity 1s ease'
-                    }}
+                    className="col-span-12 order-2 md:order-1 md:col-span-6 relative transition-transform duration-500"
+                    style={{ transform: `rotate(${rotateDeg}deg)` }}
                 >
                     <div className="relative w-full h-full">
                         <img src="/images/plate/plate.webp" alt="plate" />
@@ -95,34 +78,36 @@ function Prep() {
                     </div>
                 </div>
 
-                {/* Text and Buttons */}
                 <div className="col-span-12 order-1 md:order-2 md:col-span-6 flex flex-col items-center md:items-start justify-center">
-                    <h1
-                        className={`moret text-4xl md:text-5xl transition-opacity duration-500 ${showTitle ? 'opacity-100' : 'opacity-0'}`}
-                    >
-                        Krijoni pjaten tuaj
-                    </h1>
-                    <p
-                        className={`poppins text-base md:text-xl text-center md:text-left text-gray-500 mt-5 md:ml-10 transition-opacity duration-500 ${showDescription ? 'opacity-100' : 'opacity-0'}`}
-                    >
+                    <h1 className='moret text-4xl md:text-5xl'>Krijoni pjaten tuaj</h1>
+                    <p className='poppins text-base md:text-xl text-center md:text-left text-gray-500 mt-5 md:ml-10'>
                         Shfrytezoni rastin dhe shikoni se si do dukej
                         pjata juaj e mbushur me ushqime bio!
                     </p>
-
-                    {[ 
-                        { label: 'Shtoni domate bio +', onClick: () => handleClick(setShowTomatoes), ml: 'ml-20' },
-                        { label: 'Shtoni djathin bio +', onClick: () => handleClick(setShowCheese), ml: 'ml-20' },
-                        { label: 'Shtoni trangujt bio +', onClick: () => handleClick(setShowCucumber), ml: 'ml-10' },
-                        { label: 'Shtoni dardha bio +', onClick: () => handleClick(setShowPear), ml: '' }
-                    ].map((btn, idx) => (
-                        <button
-                            key={idx}
-                            onClick={btn.onClick}
-                            className={`poppins text-base md:text-xl font-medium underline-wavy-green w-fit mt-5 md:${btn.ml} transition-opacity duration-500 ${showButtons[idx] ? 'opacity-100' : 'opacity-0'}`}
-                        >
-                            {btn.label}
-                        </button>
-                    ))}
+                    <button
+                        className="poppins text-base md:text-xl font-medium underline-wavy-green w-fit mt-5 md:ml-20"
+                        onClick={() => handleClick(setShowTomatoes)}
+                    >
+                        Shtoni domate bio +
+                    </button>
+                    <button
+                        className="poppins text-base md:text-xl font-medium underline-wavy-green w-fit mt-5 md:ml-20"
+                        onClick={() => handleClick(setShowCheese)}
+                    >
+                        Shtoni djathin bio +
+                    </button>
+                    <button
+                        className="poppins text-base md:text-xl font-medium underline-wavy-green w-fit mt-5 md:ml-10"
+                        onClick={() => handleClick(setShowCucumber)}
+                    >
+                        Shtoni trangujt bio +
+                    </button>
+                    <button
+                        className="poppins text-base md:text-xl font-medium underline-wavy-green w-fit mt-3"
+                        onClick={() => handleClick(setShowPear)}
+                    >
+                        Shtoni dardha bio +
+                    </button>
                 </div>
             </div>
         </div>

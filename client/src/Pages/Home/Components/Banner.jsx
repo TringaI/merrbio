@@ -1,5 +1,5 @@
 import React from 'react'
-import ProductContainer from '../../../Components/ProductContainer'
+import ProductContainer from '../../../Components/ProductContainerHome'
 import { motion } from 'framer-motion'
 import './Home-Components.scss'
 
