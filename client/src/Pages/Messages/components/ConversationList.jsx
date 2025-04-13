@@ -1,6 +1,8 @@
 import React from 'react';
+import { useLanguage } from '../../../context/language/LanguageContext';
 
 const ConversationList = ({ conversations, selectedConversation, onSelectConversation, loading }) => {
+  const { t } = useLanguage();
   if (loading) {
     return (
       <div className="flex justify-center items-center h-full">
@@ -12,7 +14,7 @@ const ConversationList = ({ conversations, selectedConversation, onSelectConvers
   if (conversations.length === 0) {
     return (
       <div className="p-4 text-center text-gray-500">
-        You have no conversations yet. Use the "New Message" button to start one.
+        {t('no_conversations')}
       </div>
     );
   }

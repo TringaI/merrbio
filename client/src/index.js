@@ -16,6 +16,7 @@ import Profile from './Pages/Profile/Profile'
 import Dashboard from './Pages/Profile/Dashboard/Dashboard';
 import AdminDashboard from './Pages/Admin/AdminDashboard';
 import { AuthProvider } from './context/AuthContext';
+import { LanguageProvider } from './context/language/LanguageContext';
 import ProtectedRoute from './Components/ProtectedRoute';
 import SuperAdminRoute from './Components/SuperAdminRoute';
 import reportWebVitals from './reportWebVitals';
@@ -25,40 +26,42 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <Routes>
-          <Route path='/' element={<SuperAdminRoute><Layout /></SuperAdminRoute>}>
-            <Route index element={<SuperAdminRoute><Home /></SuperAdminRoute>} />
-            <Route path='/profili' element={
-              <SuperAdminRoute>
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              </SuperAdminRoute>
-            } />
-            <Route path='/mesazhet' element={
-              <SuperAdminRoute>
-                <ProtectedRoute>
-                  <Messages />
-                </ProtectedRoute>
-              </SuperAdminRoute>
-            } />
-            <Route path='/produktet' element={<SuperAdminRoute><Products /></SuperAdminRoute>} />
-            <Route path='/profili-fermerit' element={<SuperAdminRoute><Dashboard /></SuperAdminRoute>} />
-            <Route path='/detajet' element={<SuperAdminRoute><ProductSpecific /></SuperAdminRoute>} />
-            <Route path='/360' element={<Three />} />
+        <LanguageProvider>
+          <Routes>
+            <Route path='/' element={<SuperAdminRoute><Layout /></SuperAdminRoute>}>
+              <Route index element={<SuperAdminRoute><Home /></SuperAdminRoute>} />
+              <Route path='/profili' element={
+                <SuperAdminRoute>
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                </SuperAdminRoute>
+              } />
+              <Route path='/mesazhet' element={
+                <SuperAdminRoute>
+                  <ProtectedRoute>
+                    <Messages />
+                  </ProtectedRoute>
+                </SuperAdminRoute>
+              } />
+              <Route path='/produktet' element={<SuperAdminRoute><Products /></SuperAdminRoute>} />
+              <Route path='/profili-fermerit' element={<SuperAdminRoute><Dashboard /></SuperAdminRoute>} />
+              <Route path='/detajet' element={<SuperAdminRoute><ProductSpecific /></SuperAdminRoute>} />
+              <Route path='/360' element={<Three />} />
 
-            <Route path='/360' element={<Three />} />
-            <Route path='/krijo' element={<Plate />} />
-          </Route >
+              <Route path='/360' element={<Three />} />
+              <Route path='/krijo' element={<Plate />} />
+            </Route >
 
-          {/* Admin Routes */}
-          < Route path="/admin" element={< AdminLayout />}>
-            <Route index element={<AdminDashboard />} />
-          </Route >
+            {/* Admin Routes */}
+            < Route path="/admin" element={< AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+            </Route >
 
-          <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<SuperAdminRoute><Signup /></SuperAdminRoute>} />
-        </Routes >
+            <Route path='/login' element={<Login />} />
+            <Route path='/signup' element={<SuperAdminRoute><Signup /></SuperAdminRoute>} />
+          </Routes >
+        </LanguageProvider>
       </AuthProvider >
     </BrowserRouter >
   </React.StrictMode >

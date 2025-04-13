@@ -3,10 +3,13 @@ import { Link } from 'react-router-dom'
 import useAuth from '../hooks/useAuth'
 import LogoutButton from '../Components/LogoutButton'
 import { Menu, X } from 'lucide-react' // Install lucide-react or use any icon lib
+import LanguageSwitcher from '../Components/LanguageSwitcher/LanguageSwitcher'
+import { useLanguage } from '../context/language/LanguageContext'
 
 function Navigation() {
   const { auth } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <div className='w-full fixed bg-white z-20 px-5 md:px-20 py-5 shadow-md'>
@@ -15,16 +18,17 @@ function Navigation() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex gap-5 items-center">
-          <Link to="/" className='text-base poppins text-gray-600 font-normal'>Ballina</Link>
-          <Link to="/produktet" className='text-base poppins text-gray-600 font-normal'>Produktet</Link>
-          <Link to="/krijo" className='text-base poppins text-gray-600 font-normal'>Krijo Pjaten</Link>
+          <Link to="/" className='text-base poppins text-gray-600 font-normal'>{t('home')}</Link>
+          <Link to="/produktet" className='text-base poppins text-gray-600 font-normal'>{t('products')}</Link>
+          <Link to="/krijo" className='text-base poppins text-gray-600 font-normal'>{t('create_dish')}</Link>
+          <LanguageSwitcher />
           {auth?.isAuthenticated ? (
             <>
-              <Link to="/mesazhet" className='text-base poppins text-gray-600 font-normal'>Mesazhet</Link>
-              <Link to="/profili" className='text-base poppins font-semibold text-white dark-green-bg px-4 py-1 rounded-md'>Profili</Link>
+              <Link to="/mesazhet" className='text-base poppins text-gray-600 font-normal'>{t('messages')}</Link>
+              <Link to="/profili" className='text-base poppins font-semibold text-white dark-green-bg px-4 py-1 rounded-md'>{t('profile')}</Link>
             </>
           ) : (
-            <Link to="/login" className='text-base poppins text-gray-600 font-semibold light-green-bg px-4 py-1 rounded-md'>Kyçuni</Link>
+            <Link to="/login" className='text-base poppins text-gray-600 font-semibold light-green-bg px-4 py-1 rounded-md'>{t('login')}</Link>
           )}
         </div>
 
@@ -47,16 +51,17 @@ function Navigation() {
           </button>
         </div>
         <nav className="flex flex-col p-5 gap-4">
-          <Link to="/" className='text-base poppins text-gray-600' onClick={() => setIsOpen(false)}>Ballina</Link>
-          <Link to="/produktet" className='text-base poppins text-gray-600' onClick={() => setIsOpen(false)}>Produktet</Link>
-          <Link to="/krijo" className='text-base poppins text-gray-600' onClick={() => setIsOpen(false)}>Krijo Pjaten</Link>
+          <Link to="/" className='text-base poppins text-gray-600' onClick={() => setIsOpen(false)}>{t('home')}</Link>
+          <Link to="/produktet" className='text-base poppins text-gray-600' onClick={() => setIsOpen(false)}>{t('products')}</Link>
+          <Link to="/krijo" className='text-base poppins text-gray-600' onClick={() => setIsOpen(false)}>{t('create_dish')}</Link>
+          <LanguageSwitcher />
           {auth?.isAuthenticated ? (
             <>
-              <Link to="/mesazhet" className='text-base poppins text-gray-600' onClick={() => setIsOpen(false)}>Mesazhet</Link>
-              <Link to="/profili" className='text-base poppins text-white dark-green-bg px-4 py-1 rounded-md' onClick={() => setIsOpen(false)}>Profili</Link>
+              <Link to="/mesazhet" className='text-base poppins text-gray-600' onClick={() => setIsOpen(false)}>{t('messages')}</Link>
+              <Link to="/profili" className='text-base poppins text-white dark-green-bg px-4 py-1 rounded-md' onClick={() => setIsOpen(false)}>{t('profile')}</Link>
             </>
           ) : (
-            <Link to="/login" className='text-base poppins text-gray-600 font-semibold light-green-bg px-4 py-1 rounded-md' onClick={() => setIsOpen(false)}>Kyçuni</Link>
+            <Link to="/login" className='text-base poppins text-gray-600 font-semibold light-green-bg px-4 py-1 rounded-md' onClick={() => setIsOpen(false)}>{t('login')}</Link>
           )}
         </nav>
       </div>

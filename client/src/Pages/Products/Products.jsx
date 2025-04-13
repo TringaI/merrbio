@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import ProductContainers from '../../Components/ProductContainer';
 import api from '../../api/axios';
+import { useLanguage } from '../../context/language/LanguageContext';
 
 function Products() {
+  const { t } = useLanguage();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -97,7 +99,7 @@ function Products() {
   if (loading) {
     return (
       <div className='pt-20 w-full flex justify-center items-center min-h-[70vh]'>
-        <img src="/images/icons/loading.png" className="w-[50px] animate-spin" alt="Loading..." />
+        <img src="/images/icons/loading.png" className="w-[50px] animate-spin" alt={t('loading')} />
       </div>
     );
   }
@@ -115,17 +117,17 @@ function Products() {
   return (
     <div className='pt-20 w-full flex justify-center items-center'>
       <div className='w-[80vw]'>
-        <h1 className='moret text-3xl mb-6'>Produktet</h1>
+        <h1 className='moret text-3xl mb-6'>{t('products')}</h1>
         
         {/* Filters Section */}
         <div className="bg-white p-5  rounded-md shadow-sm mb-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Search */}
             <div>
-              <label className="block poppins text-gray-700 mb-2">Kërko produktet</label>
+              <label className="block poppins text-gray-700 mb-2">{t('search_products')}</label>
               <input
                 type="text"
-                placeholder="Kërko sipas emrit, përshkrimit ose fermerit..."
+                placeholder={t('search_placeholder')}
                 value={searchTerm}
                 onChange={handleSearch}
                 className="w-full p-2 border border-gray-300 rounded-md form-inputs"
@@ -134,13 +136,13 @@ function Products() {
             
             {/* Category Filter */}
             <div>
-              <label className="block poppins text-gray-700 mb-2">Filtro sipas kategorisë</label>
+              <label className="block poppins text-gray-700 mb-2">{t('filter_by_category')}</label>
               <select
                 value={selectedCategory}
                 onChange={handleCategorySelect}
                 className="w-full p-2 border border-gray-300 rounded-md form-inputs"
               >
-                <option value="">Të gjitha kategoritë</option>
+                <option value="">{t('all_categories')}</option>
                 {categories.map(category => (
                   <option key={category._id} value={category._id}>
                     {category.nameAl}
@@ -151,17 +153,17 @@ function Products() {
             
             {/* Sort Options */}
             <div>
-              <label className="block poppins text-gray-700 mb-2">Rendit sipas</label>
+              <label className="block poppins text-gray-700 mb-2">{t('sort_by')}</label>
               <select
                 value={sortOption}
                 onChange={handleSortChange}
                 className="w-full p-2 border border-gray-300 rounded-md form-inputs"
               >
-                <option value="">Automatike</option>
-                <option value="price-low-high">Çmimi: Ulët në të lartë</option>
-                <option value="price-high-low">Çmimi: Lartë në të ulët</option>
-                <option value="name-a-z">Emri: A-Z</option>
-                <option value="name-z-a">Emri: Z-A</option>
+                <option value="">{t('automatic')}</option>
+                <option value="price-low-high">{t('price_low_high')}</option>
+                <option value="price-high-low">{t('price_high_low')}</option>
+                <option value="name-a-z">{t('name_a_z')}</option>
+                <option value="name-z-a">{t('name_z_a')}</option>
               </select>
             </div>
           </div>
@@ -176,14 +178,14 @@ function Products() {
               }}
               className="light-green-bg px-4 py-2 rounded-md poppins text-gray-800 hover:opacity-90"
             >
-              Rivendos filtrat
+              {t('reset_filters')}
             </button>
           </div>
         </div>
         
         {filteredProducts.length === 0 ? (
           <div className="w-full p-4 bg-gray-100 rounded-md text-center">
-            <p className="poppins">Nuk u gjetën produkte me këto kritere.</p>
+            <p className="poppins">{t('no_products_found')}</p>
           </div>
         ) : (
           <div className='grid grid-cols-1 py-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>

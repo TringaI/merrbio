@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import api from '../../api/axios';
 import useAuth from '../../hooks/useAuth';
+import { useLanguage } from '../../context/language/LanguageContext';
 
 function ProductSpecific() {
   const location = useLocation();
   const navigate = useNavigate();
   const { auth } = useAuth();
+  const { t } = useLanguage();
   const [product, setProduct] = useState(null);
   const [farmer, setFarmer] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -35,7 +37,7 @@ function ProductSpecific() {
   useEffect(() => {
     const fetchProductDetails = async () => {
       if (!productId) {
-        setError('Produkti nuk u gjet');
+        setError(t('error'));
         setLoading(false);
         return;
       }
@@ -62,13 +64,13 @@ function ProductSpecific() {
         setLoading(false);
       } catch (err) {
         console.error('Error fetching product details:', err);
-        setError('Ndodhi një gabim duke marrë detajet e produktit');
+        setError(t('error_message'));
         setLoading(false);
       }
     };
 
     fetchProductDetails();
-  }, [productId]);
+  }, [productId, t]);
 
   const handlePurchaseModalOpen = async () => {
     if (!auth.isAuthenticated) {
@@ -108,27 +110,27 @@ function ProductSpecific() {
     setPurchaseSuccess('');
 
     if (!auth.isAuthenticated) {
-      setPurchaseError('Ju lutem identifikohuni për të vazhduar');
+      setPurchaseError(t('login_required'));
       return;
     }
 
     if (purchaseFormData.quantity <= 0) {
-      setPurchaseError('Sasia duhet të jetë më e madhe se 0');
+      setPurchaseError(t('quantity') + ' must be greater than 0');
       return;
     }
     
     if (purchaseFormData.quantity > product.quantity) {
-      setPurchaseError(`Sasia maksimale në dispozicion është ${product.quantity} ${product.unit}`);
+      setPurchaseError(`${t('max_quantity')}: ${product.quantity} ${product.unit}`);
       return;
     }
 
     if (!purchaseFormData.deliveryAddress.trim()) {
-      setPurchaseError('Adresa e dorëzimit është e detyrueshme');
+      setPurchaseError(t('delivery_address') + ' is required');
       return;
     }
 
     if (!purchaseFormData.contactPhone.trim()) {
-      setPurchaseError('Numri i kontaktit është i detyrueshëm');
+      setPurchaseError(t('contact_number') + ' is required');
       return;
     }
 
@@ -149,7 +151,7 @@ function ProductSpecific() {
       const response = await api.post('/requests', purchaseData);
       console.log('Purchase response:', response.data);
 
-      setPurchaseSuccess('Kërkesa për blerje u dërgua me sukses!');
+      setPurchaseSuccess(t('success_message'));
       
       // Close the modal after a delay
       setTimeout(() => {
@@ -166,7 +168,7 @@ function ProductSpecific() {
     } catch (err) {
       console.error('Error making purchase request:', err);
       setPurchaseError(
-        err.response?.data?.message || 'Ndodhi një gabim gjatë dërgimit të kërkesës'
+        err.response?.data?.message || t('error_message')
       );
     }
   };
@@ -188,14 +190,14 @@ function ProductSpecific() {
       const purchaseData = {
         productId: product._id,
         quantity: quickAddQuantity,
-        deliveryAddress: 'Të plotësohet',
-        contactPhone: 'Të plotësohet',
+        deliveryAddress: 'To be completed',
+        contactPhone: 'To be completed',
         message: '',
         totalPrice: product.price * quickAddQuantity
       };
 
       await api.post('/requests', purchaseData);
-      setQuickAddSuccess('Produkti u shtua me sukses!');
+      setQuickAddSuccess(t('success_message'));
       setQuickAddLoading(false);
       
       // Close the modal after a delay
@@ -206,7 +208,7 @@ function ProductSpecific() {
 
     } catch (err) {
       console.error('Error adding product:', err);
-      setQuickAddError(err.response?.data?.message || 'Ndodhi një gabim. Ju lutemi provoni përsëri.');
+      setQuickAddError(err.response?.data?.message || t('error_message'));
       setQuickAddLoading(false);
     }
   };
@@ -214,7 +216,7 @@ function ProductSpecific() {
   if (loading) {
     return (
       <div className="w-full mt-40 flex justify-center items-center">
-        <img src="/images/icons/loading.png" className="w-[50px] animate-spin" alt="Loading..." />
+        <img src="/images/icons/loading.png" className="w-[50px] animate-spin" alt={t('loading')} />
       </div>
     );
   }
@@ -223,7 +225,7 @@ function ProductSpecific() {
     return (
       <div className="w-full mt-40 flex justify-center items-center">
         <div className="bg-red-100 text-red-700 p-4 rounded-md">
-          {error || 'Produkti nuk u gjet'}
+          {error || t('error')}
         </div>
       </div>
     );
@@ -250,31 +252,31 @@ function ProductSpecific() {
         </div>
         <div className="col-span-6 flex flex-col border-l-[#478e69] border-l-2 pl-5">
           <h1 className='moret text-5xl'>{product.name}</h1>
-          <p className='poppins text-gray-500 text-xl'>Fermer: {farmerName}</p>
+          <p className='poppins text-gray-500 text-xl'>{t('farmer')}: {farmerName}</p>
           <p className='poppins text-gray-600 text-base mt-10'>
             {product.description}
           </p>
           <p className='poppins text-gray-600 text-base mt-5'>
-            Cmimi: <span className='font-medium'>{product.price}$</span> / {product.unit}
+            {t('price')}: <span className='font-medium'>{product.price}$</span> / {product.unit}
           </p>
           <p className='poppins text-gray-600 text-base'>
-            Sasia në dispozicion: <span className='font-medium'>{product.quantity} {product.unit}</span>
+            {t('quantity_available')}: <span className='font-medium'>{product.quantity} {product.unit}</span>
           </p>
-          <a href='/360' className="underline-wavy-green poppins mt-5 text-xl font-medium">Shikoni produktin ne 360</a>
+          <a href='/360' className="underline-wavy-green poppins mt-5 text-xl font-medium">{t('view_360')}</a>
           
           <div className="flex space-x-4 mt-5">
             <button 
               className='light-green-bg text-xl poppins w-fit py-2 px-4 rounded-md'
               onClick={handlePurchaseModalOpen}
             >
-              Beni kerkese per blerje
+              {t('purchase_request')}
             </button>
             
             <button 
               className='dark-green-bg text-white text-xl poppins w-fit py-2 px-4 rounded-md'
               onClick={() => setShowQuickAddModal(true)}
             >
-              Shto
+              {t('add')}
             </button>
           </div>
         </div>
@@ -284,7 +286,7 @@ function ProductSpecific() {
       {showPurchaseModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-8 rounded-lg w-[500px] max-h-[90vh] overflow-y-auto">
-            <h2 className="moret text-2xl mb-4">Kërkesë për blerje</h2>
+            <h2 className="moret text-2xl mb-4">{t('purchase_request_title')}</h2>
             <h3 className="poppins text-xl mb-4">{product.name}</h3>
             
             {purchaseError && (
@@ -301,7 +303,7 @@ function ProductSpecific() {
             
             <form onSubmit={handlePurchaseSubmit}>
               <div className="mb-4">
-                <label className="block poppins mb-1">Sasia ({product.unit})</label>
+                <label className="block poppins mb-1">{t('quantity')} ({product.unit})</label>
                 <input
                   type="number"
                   name="quantity"
@@ -314,15 +316,15 @@ function ProductSpecific() {
                   required
                 />
                 <p className="text-sm text-gray-500">
-                  Çmimi total: {(product.price * purchaseFormData.quantity).toFixed(2)}$
+                  {t('total_price')}: {(product.price * purchaseFormData.quantity).toFixed(2)}$
                 </p>
                 <p className="text-xs text-gray-500">
-                  Sasia maksimale: {product.quantity} {product.unit}
+                  {t('max_quantity')}: {product.quantity} {product.unit}
                 </p>
               </div>
               
               <div className="mb-4">
-                <label className="block poppins mb-1">Adresa e dorëzimit</label>
+                <label className="block poppins mb-1">{t('delivery_address')}</label>
                 <input
                   type="text"
                   name="deliveryAddress"
@@ -334,7 +336,7 @@ function ProductSpecific() {
               </div>
               
               <div className="mb-4">
-                <label className="block poppins mb-1">Numri i kontaktit</label>
+                <label className="block poppins mb-1">{t('contact_number')}</label>
                 <input
                   type="text"
                   name="contactPhone"
@@ -346,7 +348,7 @@ function ProductSpecific() {
               </div>
               
               <div className="mb-4">
-                <label className="block poppins mb-1">Mesazhi (opsional)</label>
+                <label className="block poppins mb-1">{t('message_optional')}</label>
                 <textarea
                   name="message"
                   value={purchaseFormData.message}
@@ -363,14 +365,14 @@ function ProductSpecific() {
                   className="px-4 py-2 border rounded"
                   disabled={!!purchaseSuccess}
                 >
-                  Anulo
+                  {t('cancel')}
                 </button>
                 <button
                   type="submit"
                   className="px-4 py-2 dark-green-bg text-white rounded"
                   disabled={!!purchaseSuccess}
                 >
-                  Dërgo Kërkesën
+                  {t('send_request')}
                 </button>
               </div>
             </form>
@@ -383,7 +385,7 @@ function ProductSpecific() {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded-lg w-[400px]">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold poppins">Shto produktin</h2>
+              <h2 className="text-xl font-bold poppins">{t('add_product')}</h2>
               <button 
                 onClick={() => setShowQuickAddModal(false)}
                 className="text-gray-500 hover:text-gray-700"
@@ -412,7 +414,7 @@ function ProductSpecific() {
             )}
             
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Sasia ({product.unit})</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">{t('quantity')} ({product.unit})</label>
               <input
                 type="number"
                 min="0.1"
@@ -424,7 +426,7 @@ function ProductSpecific() {
                 required
               />
               <p className="text-sm text-gray-500">
-                Cmimi total: {(product.price * quickAddQuantity).toFixed(2)}$
+                {t('total_price')}: {(product.price * quickAddQuantity).toFixed(2)}$
               </p>
             </div>
             
@@ -440,9 +442,9 @@ function ProductSpecific() {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    Duke punuar...
+                    {t('working')}
                   </>
-                ) : 'Shto produktin'}
+                ) : t('add_product')}
               </button>
             </div>
           </div>

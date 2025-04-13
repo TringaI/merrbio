@@ -3,9 +3,11 @@ import './Components.scss';
 import { Link } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import api from '../api/axios';
+import { useLanguage } from '../context/language/LanguageContext';
 
 function ProductContainer(props) {
   const { auth } = useAuth();
+  const { t } = useLanguage();
   const [quantity, setQuantity] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -17,8 +19,8 @@ function ProductContainer(props) {
     : props.desc;
     
   const handleAddToCart = async () => {
-    if (!auth.isAuthenticated) {
-      setMessage({ type: 'error', text: 'Ju duhet të identifikoheni për të shtuar produktin.' });
+  if (!auth.isAuthenticated) {
+  setMessage({ type: 'error', text: t('login_required') });
       return;
     }
     
@@ -36,7 +38,7 @@ function ProductContainer(props) {
         totalPrice: props.price * quantity
       });
       
-      setMessage({ type: 'success', text: 'Produkti u shtua me sukses!' });
+      setMessage({ type: 'success', text: t('success_message') });
       setLoading(false);
       
       // Close modal after a delay
@@ -49,7 +51,7 @@ function ProductContainer(props) {
       console.error('Error adding product:', err);
       setMessage({ 
         type: 'error', 
-        text: err.response?.data?.message || 'Ndodhi një gabim. Ju lutemi provoni përsëri.'
+        text: err.response?.data?.message || t('error_message')
       });
       setLoading(false);
     }
@@ -77,13 +79,13 @@ function ProductContainer(props) {
           to={`/detajet?id=${props.id}`} 
           className="light-green-bg px-3 py-2 rounded-md poppins inline-block"
         >
-          Shiko Produktin
+          {t('view_product')}
         </Link>
         <button
           onClick={() => setShowModal(true)}
           className="dark-green-bg text-white px-3 py-2 rounded-md poppins inline-block"
         >
-          Shto
+          {t('add')}
         </button>
       </div>
       
@@ -92,7 +94,7 @@ function ProductContainer(props) {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded-lg w-[400px]">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-bold poppins">Shto produktin</h2>
+              <h2 className="text-xl font-bold poppins">{t('add_product')}</h2>
               <button 
                 onClick={() => {
                   setShowModal(false);
@@ -142,7 +144,7 @@ function ProductContainer(props) {
                     </svg>
                     Duke punuar...
                   </>
-                ) : 'Shto'}
+                ) : t('add')}
               </button>
             </div>
           </div>

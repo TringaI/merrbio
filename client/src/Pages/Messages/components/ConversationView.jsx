@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useLanguage } from '../../../context/language/LanguageContext';
 
 const ConversationView = ({ conversation, messages, onSendMessage }) => {
   const [newMessage, setNewMessage] = useState('');
   const messagesEndRef = useRef(null);
+  const { t } = useLanguage();
   // Get current user from auth token or localStorage
   const accessToken = localStorage.getItem('accessToken');
   let currentUser = {};
@@ -57,7 +59,7 @@ const ConversationView = ({ conversation, messages, onSendMessage }) => {
       <div className="flex-1 p-4 overflow-y-auto bg-gray-50">
         {messages.length === 0 ? (
           <div className="text-center text-gray-500 my-4">
-            No messages yet. Start the conversation!
+            {t('no_messages')}
           </div>
         ) : (
           messages.map((message) => {
@@ -96,7 +98,7 @@ const ConversationView = ({ conversation, messages, onSendMessage }) => {
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Type your message..."
+            placeholder={t('type_message')}
             className="flex-1 border rounded-l-lg p-2 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
           <button

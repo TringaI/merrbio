@@ -4,6 +4,7 @@ import api from '../../api/axios';
 import ConversationList from './components/ConversationList';
 import ConversationView from './components/ConversationView';
 import NewMessageButton from './components/NewMessageButton';
+import { useLanguage } from '../../context/language/LanguageContext';
 
 const Messages = () => {
   const [conversations, setConversations] = useState([]);
@@ -11,6 +12,7 @@ const Messages = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { t } = useLanguage();
   
   const navigate = useNavigate();
 
@@ -23,7 +25,7 @@ const Messages = () => {
         setConversations(response.data);
         setLoading(false);
       } catch (err) {
-        setError('Error fetching conversations. Please try again later.');
+        setError(t('error_message'));
         setLoading(false);
         console.error(err);
       }
@@ -45,7 +47,7 @@ const Messages = () => {
             // If conversation not found, it might be new
             setMessages([]);
           } else {
-            setError('Error fetching messages. Please try again later.');
+            setError(t('error_message'));
           }
         }
       };
@@ -94,7 +96,7 @@ const Messages = () => {
 
       setConversations(updatedConversations);
     } catch (err) {
-      setError('Error sending message. Please try again.');
+      setError(t('error_message'));
       console.error(err);
     }
   };
@@ -108,7 +110,7 @@ const Messages = () => {
     <div className="flex h-screen pt-20"> {/* Add pt-20 to account for the navigation bar */}
       <div className="w-1/3 border-r bg-white shadow-sm">
         <div className="p-4 flex justify-between items-center border-b">
-          <h2 className="text-xl font-semibold">Messages</h2>
+          <h2 className="text-xl font-semibold">{t('messages')}</h2>
           <NewMessageButton />
         </div>
         <ConversationList 
@@ -128,7 +130,7 @@ const Messages = () => {
         ) : (
           <div className="h-full flex items-center justify-center bg-gray-50">
             <div className="text-center">
-              <h3 className="text-lg text-gray-500">Select a conversation or start a new one</h3>
+              <h3 className="text-lg text-gray-500">{t('no_conversation_selected')}</h3>
             </div>
           </div>
         )}

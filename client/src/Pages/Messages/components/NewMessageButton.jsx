@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../../api/axios';
+import { useLanguage } from '../../../context/language/LanguageContext';
 
 const NewMessageButton = () => {
+  const { t } = useLanguage();
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -39,7 +41,7 @@ const NewMessageButton = () => {
         setSearchResults([...farmers, ...users]);
         setLoading(false);
       } catch (err) {
-        setError('Error searching for users');
+        setError(t('error_message'));
         setLoading(false);
         console.error(err);
       }
@@ -82,7 +84,7 @@ const NewMessageButton = () => {
         window.location.reload();
       }, 500);
     } catch (err) {
-      setError('Error sending message. Please try again.');
+      setError(t('error_message'));
       console.error(err);
     }
   };
@@ -103,7 +105,7 @@ const NewMessageButton = () => {
           <div className="bg-white rounded-lg w-full max-w-md">
             <div className="p-4 border-b">
               <div className="flex justify-between items-center">
-                <h3 className="text-lg font-semibold">New Message</h3>
+                <h3 className="text-lg font-semibold">{t('new_message')}</h3>
                 <button
                   onClick={() => {
                     setShowModal(false);
@@ -154,14 +156,14 @@ const NewMessageButton = () => {
               ) : (
                 <div className="mb-4">
                   <label htmlFor="search-user" className="block text-sm font-medium text-gray-700 mb-1">
-                    To:
+                    {t('to')}:
                   </label>
                   <input
                     id="search-user"
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search for a user or farmer..."
+                    placeholder={t('search_users')}
                     className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-500"
                   />
                   
@@ -207,20 +209,20 @@ const NewMessageButton = () => {
                   )}
                   
                   {searchTerm.length >= 2 && searchResults.length === 0 && !loading && (
-                    <p className="text-sm text-gray-500 mt-2">No users found. Try a different search term.</p>
+                    <p className="text-sm text-gray-500 mt-2">{t('no_users_found')}</p>
                   )}
                 </div>
               )}
 
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                  Message:
+                  {t('message')}:
                 </label>
                 <textarea
                   id="message"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Type your message..."
+                  placeholder={t('type_message')}
                   rows="4"
                   className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-500"
                 ></textarea>
@@ -243,14 +245,14 @@ const NewMessageButton = () => {
                 }}
                 className="px-4 py-2 border rounded mr-2 hover:bg-gray-100"
               >
-                Cancel
-              </button>
-              <button
+                {t('cancel')}
+                </button>
+                <button
                 onClick={handleSendMessage}
                 disabled={!selectedUser || !message.trim()}
                 className="px-4 py-2 bg-green-500 text-white rounded disabled:bg-gray-300"
-              >
-                Send
+                >
+                {t('send')}
               </button>
             </div>
           </div>
