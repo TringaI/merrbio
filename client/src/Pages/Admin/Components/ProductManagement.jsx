@@ -52,11 +52,14 @@ function ProductManagement() {
   const confirmDeleteProduct = async () => {
     try {
       await api.delete(`/products/${confirmDelete}`);
+      // Update the UI to reflect the deletion
       setProducts(products.filter(product => product._id !== confirmDelete));
       setConfirmDelete(null);
+      setError(null); // Clear any previous errors
     } catch (err) {
       console.error('Error deleting product:', err);
-      setError('Failed to delete product. Please try again.');
+      setError(err.response?.data?.message || 'Failed to delete product. Please try again.');
+      // Keep the modal open to let the user try again
     }
   };
 

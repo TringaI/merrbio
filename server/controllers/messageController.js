@@ -95,6 +95,10 @@ const sendMessage = async (req, res) => {
     const { receiverId, content } = req.body;
     const senderId = req.user.id;
     
+    if (!receiverId || !content) {
+      return res.status(400).json({ message: 'Receiver ID and content are required' });
+    }
+    
     if (receiverId === senderId) {
       return res.status(400).json({ message: 'Cannot send message to yourself' });
     }

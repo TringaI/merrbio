@@ -122,12 +122,21 @@ const deleteFarmer = async (req, res) => {
       return res.status(404).json({ message: 'Farmer not found' });
     }
     
-    // Check if user owns this farmer profile or is admin
-    if (farmer.userId.toString() !== req.user.id && !req.user.roles.includes(9001)) {
+    // Check if user has admin role or owns this profile
+    if (farmer.userId.toString() !== req.user.id && !req.user.roles?.Admin) {
       return res.status(401).json({ message: 'Not authorized' });
     }
     
-    await Farmer.findByIdAndUpdate(req.params.id, { active: false });
+    // Find and soft delete the farmer
+    const updatedFarmer = await Farmer.findByIdAndUpdate(
+      req.params.id, 
+      { active: false },
+      { new: true }
+    );
+    
+    if (!updatedFarmer) {
+      return res.status(404).json({ message: 'Failed to update farmer status' });
+    }
     
     res.json({ message: 'Farmer profile removed' });
   } catch (err) {
@@ -140,7 +149,7 @@ const deleteFarmer = async (req, res) => {
 const verifyFarmer = async (req, res) => {
   try {
     // Check if user is admin
-    if (!req.user.roles.includes(9001)) {
+    if (!req.user.roles?.Admin) {
       return res.status(401).json({ message: 'Not authorized' });
     }
     

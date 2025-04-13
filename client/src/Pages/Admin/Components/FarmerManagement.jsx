@@ -40,7 +40,7 @@ function FarmerManagement() {
 
   const confirmVerifyFarmer = async () => {
     try {
-      const response = await api.put(`/farmers/${confirmVerify}/verify`);
+      await api.put(`/farmers/${confirmVerify}/verify`);
       
       // Update farmer in list
       setFarmers(farmers.map(farmer => 
@@ -50,7 +50,7 @@ function FarmerManagement() {
       setConfirmVerify(null);
     } catch (err) {
       console.error('Error verifying farmer:', err);
-      setError('Failed to verify farmer. Please try again.');
+      setError(err.response?.data?.message || 'Failed to verify farmer. Please try again.');
     }
   };
 
@@ -61,11 +61,13 @@ function FarmerManagement() {
   const confirmDeleteFarmer = async () => {
     try {
       await api.delete(`/farmers/${confirmDelete}`);
+      // Update the list by removing the deleted farmer
       setFarmers(farmers.filter(farmer => farmer._id !== confirmDelete));
       setConfirmDelete(null);
     } catch (err) {
       console.error('Error deleting farmer:', err);
-      setError('Failed to delete farmer. Please try again.');
+      setError(err.response?.data?.message || 'Failed to delete farmer. Please try again.');
+      setConfirmDelete(null);
     }
   };
 

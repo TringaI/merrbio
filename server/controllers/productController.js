@@ -169,18 +169,34 @@ const deleteProduct = async (req, res) => {
       return res.status(404).json({ message: 'Product not found' });
     }
     
-    // Check if the user is the owner of the product
-    const farmer = await Farmer.findById(product.farmerId);
+    // Find associated farmer
+    let farmer = null;
+    try {
+      farmer = await Farmer.findById(product.farmerId);
+    } catch (error) {
+      console.log('Error finding farmer:', error);
+      // Continue with deletion even if farmer is not found
+    }
     
-    if (farmer.userId.toString() !== req.user.id && !req.user.roles.includes(9001)) {
+    // Check if the user is the owner of the product or an admin
+    if (farmer && farmer.userId && 
+        farmer.userId.toString() !== req.user.id && 
+        !req.user.roles?.Admin) {
       return res.status(401).json({ message: 'Not authorized' });
     }
     
-    await Product.findByIdAndUpdate(req.params.id, { active: false });
+    // Do hard delete for admin users, soft delete for others
+    if (req.user.roles?.Admin) {
+      // Hard delete
+      await Product.findByIdAndDelete(req.params.id);
+    } else {
+      // Soft delete
+      await Product.findByIdAndUpdate(req.params.id, { active: false });
+    }
     
-    res.json({ message: 'Product removed' });
+    res.json({ message: 'Product removed successfully' });
   } catch (err) {
-    console.error(err.message);
+    console.error('Error in deleteProduct:', err);
     res.status(500).json({ message: 'Server error' });
   }
 };

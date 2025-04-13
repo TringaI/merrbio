@@ -3,9 +3,18 @@ import React, { useState, useRef, useEffect } from 'react';
 const ConversationView = ({ conversation, messages, onSendMessage }) => {
   const [newMessage, setNewMessage] = useState('');
   const messagesEndRef = useRef(null);
-  // Get current user from auth token
+  // Get current user from auth token or localStorage
   const accessToken = localStorage.getItem('accessToken');
-  const currentUser = accessToken ? JSON.parse(atob(accessToken.split('.')[1])).UserInfo : {};
+  let currentUser = {};
+  
+  try {
+    if (accessToken) {
+      const decoded = JSON.parse(atob(accessToken.split('.')[1]));
+      currentUser = decoded.UserInfo || {};
+    }
+  } catch (error) {
+    console.error('Error parsing JWT token:', error);
+  }
 
   useEffect(() => {
     // Scroll to bottom when messages change

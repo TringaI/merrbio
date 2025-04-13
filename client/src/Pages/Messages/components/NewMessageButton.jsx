@@ -77,8 +77,10 @@ const NewMessageButton = () => {
       setSelectedUser(null);
       setShowModal(false);
       
-      // Reload the page to show new conversation
-      window.location.reload();
+      // Add a small delay before reloading to ensure the message is saved
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     } catch (err) {
       setError('Error sending message. Please try again.');
       console.error(err);

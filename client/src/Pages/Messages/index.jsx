@@ -40,8 +40,13 @@ const Messages = () => {
           const response = await api.get(`/messages/${selectedConversation._id}`);
           setMessages(response.data);
         } catch (err) {
-          setError('Error fetching messages. Please try again later.');
-          console.error(err);
+          console.error('Error fetching messages:', err);
+          if (err.response?.status === 404) {
+            // If conversation not found, it might be new
+            setMessages([]);
+          } else {
+            setError('Error fetching messages. Please try again later.');
+          }
         }
       };
 
