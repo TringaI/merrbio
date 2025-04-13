@@ -19,6 +19,8 @@ function Profile() {
 
     // Check if user has farmer role - checking specifically for roles.Farmer == 3001
     const isFarmer = userData?.roles?.Farmer === 3001;
+    // Check if user is a superadmin
+    const isSuperAdmin = userData?.roles?.SuperAdmin === 9999 || userData?.roles?.Admin === 9001;
     
     console.log("Auth state:", auth);
     console.log("User data:", userData);
@@ -143,6 +145,18 @@ function Profile() {
                             onClick={handleManageProducts}
                         >
                             Menaxho Produktet
+                        </button>
+                    </div>
+                )}
+                
+                {/* Show Admin Panel button for SuperAdmins */}
+                {isSuperAdmin && (
+                    <div className="w-full flex justify-end mt-3">
+                        <button 
+                            className='bg-purple-700 px-4 py-3 rounded-md mt-2 text-white poppins'
+                            onClick={() => navigate('/admin')}
+                        >
+                            Admin Panel
                         </button>
                     </div>
                 )}

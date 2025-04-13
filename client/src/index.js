@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './Layout/Layout';
+import AdminLayout from './Layout/AdminLayout';
 import Home from './Pages/Home/Home';
 import ProductSpecific from './Pages/Products/ProductSpecific';
 import Login from './Pages/Login/Login'
@@ -11,8 +12,10 @@ import Products from './Pages/Products/Products'
 import Three from './Pages/Products/Three';
 import Profile from './Pages/Profile/Profile'
 import Dashboard from './Pages/Profile/Dashboard/Dashboard';
+import AdminDashboard from './Pages/Admin/AdminDashboard';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './Components/ProtectedRoute';
+import SuperAdminRoute from './Components/SuperAdminRoute';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -21,21 +24,28 @@ root.render(
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path='/' element={<Layout />}>
-            <Route index element={<Home />} />
+          <Route path='/' element={<SuperAdminRoute><Layout /></SuperAdminRoute>}>
+            <Route index element={<SuperAdminRoute><Home /></SuperAdminRoute>} />
             <Route path='/profili' element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
+              <SuperAdminRoute>
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              </SuperAdminRoute>
             } />
-            <Route path='/produktet' element={<Products />} />
-            <Route path='/profili-fermerit' element={<Dashboard />} />
-            <Route path='/360' element={<Three />} />
-          <Route path='/detajet' element={<ProductSpecific />} />
-
+            <Route path='/produktet' element={<SuperAdminRoute><Products /></SuperAdminRoute>} />
+            <Route path='/profili-fermerit' element={<SuperAdminRoute><Dashboard /></SuperAdminRoute>} />
+            <Route path='/360' element={<SuperAdminRoute><Three /></SuperAdminRoute>} />
+            <Route path='/detajet' element={<SuperAdminRoute><ProductSpecific /></SuperAdminRoute>} />
           </Route>
+          
+          {/* Admin Routes */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+          </Route>
+          
           <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<Signup />} />
+          <Route path='/signup' element={<SuperAdminRoute><Signup /></SuperAdminRoute>} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

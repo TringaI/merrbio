@@ -3,6 +3,11 @@ const router = express.Router();
 const purchaseRequestController = require('../controllers/purchaseRequestController');
 const verifyToken = require('../middlewares/auth');
 
+// @route   GET /requests/all
+// @desc    Get all purchase requests (admin only)
+// @access  Private/Admin
+router.get('/all', verifyToken, purchaseRequestController.getAllRequests);
+
 // @route   GET /requests/user
 // @desc    Get purchase requests for current user (as buyer)
 // @access  Private

@@ -22,6 +22,11 @@ export const AuthProvider = ({ children }) => {
           roles,
           isAuthenticated: true,
         });
+        
+        // If user is a SuperAdmin, redirect them directly to admin panel
+        if (roles && roles.SuperAdmin === 9999) {
+          window.location.href = 'http://localhost:3000/admin';
+        }
       } catch (err) {
         console.error(err);
       } finally {
@@ -35,7 +40,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       setIsLoading(false);
     }
-  }, []);
+  }, [navigate]);
 
   // Login function
   const login = async (username, password) => {
@@ -57,7 +62,10 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated: true,
       });
 
-      return { success: true };
+      return { 
+        success: true,
+        roles: roles 
+      };
     } catch (error) {
       return { 
         success: false, 

@@ -11,7 +11,7 @@ function Login() {
   const { login } = useAuth()
   const navigate = useNavigate()
 
-  const handleLogin = async (e) => {
+    const handleLogin = async (e) => {
     e.preventDefault()
     
     if (!username || !password) {
@@ -26,7 +26,13 @@ function Login() {
       const result = await login(username, password)
       
       if (result.success) {
-        navigate('/')
+        // Check if the user is a SuperAdmin
+        if (result.roles && result.roles.SuperAdmin === 9999) {
+          // DIRECT REDIRECT TO ADMIN PAGE FOR SUPERADMIN USERS
+          window.location.href = 'http://localhost:3000/admin'
+        } else {
+          navigate('/')
+        }
       } else {
         setError(result.message || 'Të dhënat e identifikimit janë të pasakta.')
       }

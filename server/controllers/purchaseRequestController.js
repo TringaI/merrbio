@@ -2,6 +2,26 @@ const PurchaseRequest = require('../models/PurchaseRequest');
 const Product = require('../models/Product');
 const Farmer = require('../models/Farmer');
 
+// Get all purchase requests (admin only)
+const getAllRequests = async (req, res) => {
+  try {
+    // Check if user has admin role
+    if (!req.user.roles || (!req.user.roles.Admin && !req.user.roles.SuperAdmin)) {
+      return res.status(403).json({ message: 'Not authorized for this action' });
+    }
+    
+    const requests = await PurchaseRequest.find()
+      .populate('userId', ['firstName', 'lastName', 'email', 'phone'])
+      .populate('productId', ['name', 'price', 'unit', 'images'])
+      .populate('farmerId', ['farmName']);
+    
+    res.json(requests);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 // Get purchase requests for the current user (as buyer)
 const getUserRequests = async (req, res) => {
   try {
@@ -170,6 +190,7 @@ const cancelRequest = async (req, res) => {
 module.exports = {
   getUserRequests,
   getFarmerRequests,
+  getAllRequests,
   createRequest,
   updateRequestStatus,
   cancelRequest
