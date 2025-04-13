@@ -9,6 +9,7 @@ import ProductSpecific from './Pages/Products/ProductSpecific';
 import Login from './Pages/Login/Login'
 import Signup from './Pages/Signup/Signup'
 import Products from './Pages/Products/Products'
+import Plate from './Pages/Plate/Plate';
 import Three from './Pages/Products/Three';
 import Profile from './Pages/Profile/Profile'
 import Dashboard from './Pages/Profile/Dashboard/Dashboard';
@@ -35,21 +36,24 @@ root.render(
             } />
             <Route path='/produktet' element={<SuperAdminRoute><Products /></SuperAdminRoute>} />
             <Route path='/profili-fermerit' element={<SuperAdminRoute><Dashboard /></SuperAdminRoute>} />
-            <Route path='/360' element={<SuperAdminRoute><Three /></SuperAdminRoute>} />
             <Route path='/detajet' element={<SuperAdminRoute><ProductSpecific /></SuperAdminRoute>} />
-          </Route>
-          
+            <Route path='/360' element={<Three />} />
+
+            <Route path='/360' element={<Three />} />
+            <Route path='/krijo' element={<Plate />} />
+          </Route >
+
           {/* Admin Routes */}
-          <Route path="/admin" element={<AdminLayout />}>
+          < Route path="/admin" element={< AdminLayout />}>
             <Route index element={<AdminDashboard />} />
-          </Route>
-          
+          </Route >
+
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<SuperAdminRoute><Signup /></SuperAdminRoute>} />
-        </Routes>
-      </AuthProvider>
-    </BrowserRouter>
-  </React.StrictMode>
+        </Routes >
+      </AuthProvider >
+    </BrowserRouter >
+  </React.StrictMode >
 );
 
 // If you want to start measuring performance in your app, pass a function
