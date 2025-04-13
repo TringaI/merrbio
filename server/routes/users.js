@@ -18,4 +18,9 @@ router.get('/me', verifyToken, usersController.getUserProfile);
 // @access  Private
 router.put('/me', verifyToken, usersController.updateUserProfile);
 
+// @route   GET /users/search
+// @desc    Search users by name or email
+// @access  Private
+router.get('/search', verifyToken, usersController.searchUsers);
+
 module.exports = router;

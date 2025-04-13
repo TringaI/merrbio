@@ -114,8 +114,33 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
+// Search users by name or email
+const searchUsers = async (req, res) => {
+  try {
+    const query = req.query.query;
+    if (!query || query.length < 2) {
+      return res.status(400).json({ message: 'Search query must be at least 2 characters' });
+    }
+
+    const users = await User.find({
+      $or: [
+        { firstName: { $regex: query, $options: 'i' } },
+        { lastName: { $regex: query, $options: 'i' } },
+        { email: { $regex: query, $options: 'i' } },
+        { username: { $regex: query, $options: 'i' } }
+      ]
+    }).select('_id firstName lastName email profileImage');
+
+    res.json(users);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = {
   registerUser,
   getUserProfile,
-  updateUserProfile
+  updateUserProfile,
+  searchUsers
 };

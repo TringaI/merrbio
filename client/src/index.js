@@ -10,6 +10,7 @@ import Login from './Pages/Login/Login'
 import Signup from './Pages/Signup/Signup'
 import Products from './Pages/Products/Products'
 import Three from './Pages/Products/Three';
+import Messages from './Pages/Messages/index';
 import Profile from './Pages/Profile/Profile'
 import Dashboard from './Pages/Profile/Dashboard/Dashboard';
 import AdminDashboard from './Pages/Admin/AdminDashboard';
@@ -30,6 +31,13 @@ root.render(
               <SuperAdminRoute>
                 <ProtectedRoute>
                   <Profile />
+                </ProtectedRoute>
+              </SuperAdminRoute>
+            } />
+            <Route path='/mesazhet' element={
+              <SuperAdminRoute>
+                <ProtectedRoute>
+                  <Messages />
                 </ProtectedRoute>
               </SuperAdminRoute>
             } />

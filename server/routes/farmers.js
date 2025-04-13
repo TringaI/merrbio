@@ -13,6 +13,11 @@ router.get('/', farmersController.getAllFarmers);
 // @access  Public
 router.get('/nearby', farmersController.getNearbyFarmers);
 
+// @route   GET /farmers/search
+// @desc    Search farmers by name, farm name or description
+// @access  Private
+router.get('/search', verifyToken, farmersController.searchFarmers);
+
 // @route   GET /farmers/:id
 // @desc    Get farmer by ID
 // @access  Public

@@ -17,6 +17,7 @@ function Navigation() {
             
             {auth?.isAuthenticated ? (
               <>
+                <Link to="/mesazhet" className='text-base poppins text-gray-600 font-normal'>Mesazhet</Link>
                 <Link to="/profili" className='text-base poppins  font-semibold text-white dark-green-bg px-4 py-1 rounded-md'>Profili</Link>
               </>
             ) : (

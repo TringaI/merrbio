@@ -48,6 +48,11 @@ const getMessages = async (req, res) => {
     const conversationId = req.params.conversationId;
     const userId = req.user.id;
     
+    // Validate if conversationId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(conversationId)) {
+      return res.status(400).json({ message: 'Invalid conversation ID format' });
+    }
+    
     // Check if user belongs to this conversation
     const conversation = await Conversation.findById(conversationId);
     
@@ -97,19 +102,17 @@ const sendMessage = async (req, res) => {
     // Create or get conversation
     let conversation;
     
-    // Create a unique identifier for the conversation
-    const participantIds = [senderId, receiverId].sort();
-    const conversationId = participantIds.join('_');
+    // Create participant array for query
+    const participantIds = [senderId, receiverId];
     
-    // Check if conversation exists
+    // Check if conversation exists with both participants
     conversation = await Conversation.findOne({
-      _id: conversationId
+      participants: { $all: [senderId, receiverId] }
     });
     
     if (!conversation) {
       // Create new conversation
       conversation = new Conversation({
-        _id: conversationId,
         participants: participantIds,
         unreadCount: new Map([[receiverId, 1]])
       });
@@ -121,7 +124,7 @@ const sendMessage = async (req, res) => {
     
     // Create message
     const message = new Message({
-      conversationId,
+      conversationId: conversation._id,
       sender: senderId,
       receiver: receiverId,
       content

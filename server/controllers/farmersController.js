@@ -160,11 +160,36 @@ const verifyFarmer = async (req, res) => {
   }
 };
 
+// Search farmers by name, farm name, or description
+const searchFarmers = async (req, res) => {
+  try {
+    const query = req.query.query;
+    if (!query || query.length < 2) {
+      return res.status(400).json({ message: 'Search query must be at least 2 characters' });
+    }
+
+    const farmers = await Farmer.find({
+      active: true,
+      $or: [
+        { farmName: { $regex: query, $options: 'i' } },
+        { description: { $regex: query, $options: 'i' } },
+        { email: { $regex: query, $options: 'i' } }
+      ]
+    }).populate('userId', ['_id', 'firstName', 'lastName', 'email', 'profileImage']);
+
+    res.json(farmers);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = {
   getAllFarmers,
   getFarmerById,
   getNearbyFarmers,
   createUpdateFarmer,
   deleteFarmer,
-  verifyFarmer
+  verifyFarmer,
+  searchFarmers
 };
