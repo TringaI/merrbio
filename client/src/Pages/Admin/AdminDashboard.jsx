@@ -25,7 +25,7 @@ function AdminDashboard() {
           (userResponse.data.roles.SuperAdmin === 9999 || userResponse.data.roles.Admin === 9001);
         
         if (!hasAdminAccess) {
-          console.error('Unauthorized access attempt to admin dashboard');
+          console.error('Nuk jen i autorizuar');
           navigate('/profili');
         }
         
