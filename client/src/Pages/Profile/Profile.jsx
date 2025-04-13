@@ -124,6 +124,11 @@ function Profile() {
         </div>;
     }
 
+    // Check if there are any pending or accepted orders
+    const hasActiveOrders = orders.filter(order => 
+        order.status === 'pending' || order.status === 'accepted'
+    ).length > 0;
+
     return (
         <div className='w-full flex flex-col justify-center items-center'>
             <div className='w-[80vw] mt-40'>
@@ -175,22 +180,26 @@ function Profile() {
                     <h1 className='moret text-2xl'>Lista e porosive</h1>
                     <hr />
                     <div className="flex w-full mt-10 flex-wrap gap-5">
-                        {orders.length > 0 ? (
-                            orders.map((order) => (
-                                <div key={order._id} className='w-[20%]'>
-                                    <FinishedProducts 
-                                        product={order.productId?.name || 'Produkt'} 
-                                        image={order.productId?.images && order.productId.images.length > 0 
-                                               ? order.productId.images[0] 
-                                               : '/images/product-images/product-1.png'} 
-                                        status={order.status}
-                                        quantity={order.quantity}
-                                        total={order.totalPrice}
-                                    />
-                                </div>
-                            ))
+                        {hasActiveOrders ? (
+                            // Filter to show only pending and accepted orders
+                            orders
+                                .filter(order => order.status === 'pending' || order.status === 'accepted')
+                                .map((order) => (
+                                    <div key={order._id} className='w-[22%] mb-5'>
+                                        <FinishedProducts 
+                                            product={order.productId?.name || 'Produkt'} 
+                                            image={order.productId?.images && order.productId.images.length > 0 
+                                                ? order.productId.images[0] 
+                                                : 'product-1.png'} 
+                                            status={order.status}
+                                            quantity={`${order.quantity} ${order.productId?.unit || ''}`}
+                                            total={order.totalPrice.toFixed(2)}
+                                            productId={order.productId?._id}
+                                        />
+                                    </div>
+                                ))
                         ) : (
-                            <p className="poppins text-md">Nuk keni porosi ende.</p>
+                            <p className="poppins text-md">Nuk keni porosi aktive në pritje.</p>
                         )}
                     </div>
                 </div>
