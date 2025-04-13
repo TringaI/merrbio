@@ -2,48 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-body{
-  margin:0;
+
+body {
+  margin: 0;
   overflow-x: hidden;
+  background-color: white;
+  background-blend-mode: multiply;
+
 }
+
 @font-face {
   font-family: 'moret';
   src: url('../public/moret/Moret-Regular.otf') format('opentype');
   font-weight: normal;
 }
-.poppins{
+
+.poppins {
   font-family: 'Poppins';
 }
-.moret{
+
+.moret {
   font-family: 'Moret';
 }
-.underline-wavy-green{
+
+.underline-wavy-green {
   text-decoration: underline wavy #B7E3CC;
 }
 
-.light-green-bg{
+.light-green-bg {
   background-color: #B7E3CC;
 }
-.dark-green-bg{
+
+.dark-green-bg {
   background-color: #478e69;
 
 }
-.light-green-border{
+
+.light-green-border {
   border: 1px solid #B7E3CC;
 }
-.dark-green-border{
+
+.dark-green-border {
   border: 1px solid #478e69;
 
 }
-.blue-bg{
+
+.blue-bg {
   background-color: #7D82B8;
 }
 
 
 /* forms */
-.form-inputs{
+.form-inputs {
   box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
 }
-.form-side-containers{
+
+.form-side-containers {
   box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
 }

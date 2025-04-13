@@ -4,9 +4,11 @@ import './index.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './Layout/Layout';
 import Home from './Pages/Home/Home';
+import ProductSpecific from './Pages/Products/ProductSpecific';
 import Login from './Pages/Login/Login'
 import Signup from './Pages/Signup/Signup'
 import Products from './Pages/Products/Products'
+import Three from './Pages/Products/Three';
 import Profile from './Pages/Profile/Profile'
 import Dashboard from './Pages/Profile/Dashboard/Dashboard';
 import { AuthProvider } from './context/AuthContext';
@@ -28,6 +30,9 @@ root.render(
             } />
             <Route path='/produktet' element={<Products />} />
             <Route path='/profili-fermerit' element={<Dashboard />} />
+            <Route path='/360' element={<Three />} />
+          <Route path='/detajet' element={<ProductSpecific />} />
+
           </Route>
           <Route path='/login' element={<Login />} />
           <Route path='/signup' element={<Signup />} />

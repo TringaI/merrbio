@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import Scene from './Scene';
 import { OrbitControls } from '@react-three/drei';
 import Banner from './Components/Banner';
 import Farmer from './Components/Farmer';
