@@ -1,11 +1,12 @@
 import React from 'react'
 import Navigation from './Navigation'
+import { Outlet } from 'react-router-dom'
 
-function Layout(props) {
+function Layout() {
   return (
     <div className='w-full flex flex-col'>
         <Navigation/>
-        {props.children}
+        <Outlet />
     </div>
   )
 }
