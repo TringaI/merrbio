@@ -8,26 +8,29 @@ import Login from './Pages/Login/Login'
 import Signup from './Pages/Signup/Signup'
 import Products from './Pages/Products/Products'
 import Profile from './Pages/Profile/Profile'
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './Components/ProtectedRoute';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Layout>
+      <AuthProvider>
         <Routes>
-          <Route exact path='/' element={<Home />} />
-          <Route exact path='/signup' element={<Signup />} />
-          <Route exact path='/profili' element={<Profile />} />
-          <Route exact path='/produktet' element={<Products />} />
+          <Route path='/' element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path='/profili' element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            } />
+            <Route path='/produktet' element={<Products />} />
+          </Route>
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<Signup />} />
         </Routes>
-      </Layout>
-      <Routes>
-        <Route exact path='/login' element={<Login />} />
-        <Route exact path='/signup' element={<Signup />} />
-
-      </Routes>
-
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
